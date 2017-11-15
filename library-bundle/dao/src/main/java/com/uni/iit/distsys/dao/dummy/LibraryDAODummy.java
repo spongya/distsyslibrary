@@ -44,8 +44,10 @@ public class LibraryDAODummy implements LibraryDAO {
 	@Override
 	public void reserve(Book book) {
 		for (Book b : books) {
+			System.out.println(b);
 			if (b.equals(book)) {
-				book.reserve();
+				System.out.println(b);
+				b.reserve();
 				break;
 			}
 		}
@@ -55,7 +57,7 @@ public class LibraryDAODummy implements LibraryDAO {
 	public void checkout(Book book) {
 		for (Book b : books) {
 			if (b.equals(book)) {
-				book.checkout();
+				b.checkout();
 				break;
 			}
 		}
@@ -76,7 +78,7 @@ public class LibraryDAODummy implements LibraryDAO {
 	public Collection<Book> listAllBookByTitle(String title) {
 		Collection<Book> ret = new ArrayList<>();
 		for (Book b : books) {
-			if (b.getTitle().equals(title)) {
+			if (b.getTitle().contains(title)) {
 				ret.add(b);
 			}
 		}
@@ -87,7 +89,7 @@ public class LibraryDAODummy implements LibraryDAO {
 	public Collection<Book> listAllBookByAuthor(String author) {
 		Collection<Book> ret = new ArrayList<>();
 		for (Book b : books) {
-			if (b.getAuthor().equals(author)) {
+			if (b.getAuthor().contains(author)) {
 				ret.add(b);
 			}
 		}

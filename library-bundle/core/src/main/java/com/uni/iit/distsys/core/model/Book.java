@@ -41,6 +41,46 @@ public class Book {
 		this.isReserved = false;
 		this.isAvailable = true;
 	}
+	
+	public Book(String author, String title, String language) {
+		this.author = author;
+		this.title = title;
+		this.publisher = "";
+		this.publishingYear = 0;
+		this.registrationDate = new Date();
+		this.language = language;
+		this.version = 0;
+		this.isbnNumber = "";
+		this.isReserved = false;
+		this.isAvailable = true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Book [author=");
+		builder.append(author);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", publisher=");
+		builder.append(publisher);
+		builder.append(", publishingYear=");
+		builder.append(publishingYear);
+		builder.append(", registrationDate=");
+		builder.append(registrationDate);
+		builder.append(", language=");
+		builder.append(language);
+		builder.append(", version=");
+		builder.append(version);
+		builder.append(", isbnNumber=");
+		builder.append(isbnNumber);
+		builder.append(", isReserved=");
+		builder.append(isReserved);
+		builder.append(", isAvailable=");
+		builder.append(isAvailable);
+		builder.append("]");
+		return builder.toString();
+	}
 
 	public String getAuthor() {
 		return author;
@@ -119,7 +159,7 @@ public class Book {
 	}
 
 	public void checkout() {
-		this.isAvailable = true;
+		this.isAvailable = false;
 	}
 	
 	@Override
