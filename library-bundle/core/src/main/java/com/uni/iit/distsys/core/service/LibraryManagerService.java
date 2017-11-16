@@ -9,7 +9,7 @@ public interface LibraryManagerService {
 	void addNewBook(String author, String title, String publisher, int publishingYear, String language, int version,
 			String isbnNumber);
 
-	void reserveBook(Book book);
+	boolean reserveBook(Book book);
 	
-	void checkOutBook(Book book);
+	boolean checkOutBook(Book book);
 }

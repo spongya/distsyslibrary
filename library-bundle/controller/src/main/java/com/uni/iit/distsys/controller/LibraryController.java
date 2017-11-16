@@ -38,22 +38,22 @@ public class LibraryController {
 	@ResponseBody
 	public String reserveBook(@RequestParam("author") String author, @RequestParam("title") String title,
 			@RequestParam("lang") String language) {
-		this.managerService.reserveBook(new Book(author, title, language));
+		if (this.managerService.reserveBook(new Book(author, title, language))) {
+			return "Book reserved";
+		}
 		
-		System.out.println(author + title + language);
-		
-		return "Book reserved";
+		return "Reserve failed!";
 	}
 	
 	@RequestMapping(value = "checkout", method = RequestMethod.POST, produces = "text/plain")
 	@ResponseBody
 	public String checkoutBook(@RequestParam("author") String author, @RequestParam("title") String title,
 			@RequestParam("lang") String language) {
-		this.managerService.checkOutBook(new Book(author, title, language));
+		if (this.managerService.checkOutBook(new Book(author, title, language))) {
+			return "Book checked out";
+		}
 		
-		System.out.println(author + title + language);
-		
-		return "Book checked out";
+		return "Checkout failed";
 	}
 
 	@RequestMapping(value = "getAll")

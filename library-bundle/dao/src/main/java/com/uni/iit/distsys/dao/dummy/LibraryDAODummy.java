@@ -42,25 +42,30 @@ public class LibraryDAODummy implements LibraryDAO {
 	}
 
 	@Override
-	public void reserve(Book book) {
+	public boolean reserve(Book book) {
 		for (Book b : books) {
 			System.out.println(b);
 			if (b.equals(book)) {
-				System.out.println(b);
-				b.reserve();
-				break;
+				if (!b.isReserved() && b.isAvailable()) {
+					b.reserve();
+					return true;
+				}
 			}
 		}
+		return false;
 	}
 
 	@Override
-	public void checkout(Book book) {
+	public boolean checkout(Book book) {
 		for (Book b : books) {
 			if (b.equals(book)) {
-				b.checkout();
-				break;
+				if (!b.isReserved() && b.isAvailable()) {
+					b.checkout();
+					return true;
+				}
 			}
 		}
+		return false;
 	}
 
 	@Override

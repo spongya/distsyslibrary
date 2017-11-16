@@ -8,9 +8,9 @@ public interface LibraryDAO {
 
 	void addNew(Book book);
 
-	void reserve(Book book);
+	boolean reserve(Book book);
 
-	void checkout(Book book);
+	boolean checkout(Book book);
 
 	Collection<Book> listAllAvailableBook();
 

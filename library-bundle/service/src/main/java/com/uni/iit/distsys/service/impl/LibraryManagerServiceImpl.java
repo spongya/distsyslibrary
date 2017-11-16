@@ -24,13 +24,13 @@ public class LibraryManagerServiceImpl implements LibraryManagerService {
 	}
 
 	@Override
-	public void reserveBook(Book book) {
-		this.dao.reserve(book);
+	public boolean reserveBook(Book book) {
+		return this.dao.reserve(book);
 	}
 
 	@Override
-	public void checkOutBook(Book book) {
-		this.dao.checkout(book);
+	public boolean checkOutBook(Book book) {
+		return this.dao.checkout(book);
 	}
 
 }
