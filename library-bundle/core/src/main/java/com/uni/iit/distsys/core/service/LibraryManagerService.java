@@ -6,8 +6,7 @@ public interface LibraryManagerService {
 
 	void addNewBook(Book book);
 
-	void addNewBook(String author, String title, String publisher, int publishingYear, String language, int version,
-			String isbnNumber);
+	void addNewBook(String author, String title, String publisher, int publishingYear, String language, String isbnNumber);
 
 	boolean reserveBook(Book book);
 	

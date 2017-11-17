@@ -26,10 +26,10 @@ public class LibraryController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST, produces = "text/plain")
 	@ResponseBody
-	public String addNewBook(@RequestParam("a") String author, @RequestParam("t") String title,
-			@RequestParam("p") String publisher, @RequestParam("py") int publishingYear,
-			@RequestParam("l") String language, @RequestParam("v") int version, @RequestParam("i") String isbnNumber) {
-		this.managerService.addNewBook(author, title, publisher, publishingYear, language, version, isbnNumber);
+	public String addNewBook(@RequestParam("author") String author, @RequestParam("title") String title,
+			@RequestParam("publisher") String publisher, @RequestParam("publishingYear") int publishingYear,
+			@RequestParam("language") String language, @RequestParam("isbnNumber") String isbnNumber) {
+		this.managerService.addNewBook(author, title, publisher, publishingYear, language, isbnNumber);
 
 		return "New book added";
 	}
@@ -56,10 +56,16 @@ public class LibraryController {
 		return "Checkout failed";
 	}
 
-	@RequestMapping(value = "getAll")
+	@RequestMapping(value = "getAvailables")
 	@ResponseBody
 	public Collection<Book> getAllAvailable() {
 		return this.searchService.listAllAvailableBook();
+	}
+	
+	@RequestMapping(value = "getNotAvailables")
+	@ResponseBody
+	public Collection<Book> getAllNotAvailable() {
+		return this.searchService.listAllNotAvailableBook();
 	}
 
 	@RequestMapping(value = "getByAuthor")

@@ -18,6 +18,11 @@ public class LibrarySearchServiceImpl implements LibrarySearchService {
 	public Collection<Book> listAllAvailableBook() {
 		return this.dao.listAllAvailableBook();
 	}
+	
+	@Override
+	public Collection<Book> listAllNotAvailableBook() {
+		return this.dao.listAllNotAvailableBook();
+	}
 
 	@Override
 	public Collection<Book> listAllBookByTitle(String title) {

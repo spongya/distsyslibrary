@@ -12,20 +12,20 @@
 
 	<int:gateway id="LibrarySearchGateway"
 		service-interface="com.uni.iit.distsys.melibrary.gateway.LibrarySearchGateway">
-		<int:method name="listAllAvailableBook" request-channel="libraryRequestChannel"
+		<int:method name="listAllAvailableBook" request-channel="availableLibraryRequestChannel"
+			request-timeout="1000" />
+		<int:method name="listAllNotAvailableBook" request-channel="notAvailableLibraryRequestChannel"
 			request-timeout="1000" />
 		<!-- <int:method name="addPerson" request-channel="personRegistrationRequestChannel" 
 			/> -->
 	</int:gateway>
 
-	<int:channel id="LibraryRequestChannel" />
+	<int:channel id="availableLibraryRequestChannel" />
+	<int:channel id="notAvailableLibraryRequestChannel" />
 
 	<int:channel id="stdOutChannel" />
 	<int:channel id="chatChannel" />
 	<int:channel id="surveillanceChannel" />
-
-	<!-- <int:channel id="personRegistrationRequestChannel" /> -->
-	<int:channel id="libraryRequestChannel" />
 
 	<int:recipient-list-router id="chatRouter"
 		input-channel="chatChannel">
@@ -40,8 +40,13 @@
 		id="surveillanceAdapter" channel="surveillanceChannel" directory="surveilance"
 		filename-generator-expression="'chat.log'" mode="APPEND" />
 
-	<int-http:outbound-gateway request-channel="libraryRequestChannel"
-		url="http://localhost:8080/web/library/getAll" http-method="GET"
+	<int-http:outbound-gateway request-channel="availableLibraryRequestChannel"
+		url="http://localhost:8080/web/library/getAvailables" http-method="GET"
+		expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
+	</int-http:outbound-gateway>
+	
+	<int-http:outbound-gateway request-channel="notAvailableLibraryRequestChannel"
+		url="http://localhost:8080/web/library/getNotAvailables" http-method="GET"
 		expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
 	</int-http:outbound-gateway>
 

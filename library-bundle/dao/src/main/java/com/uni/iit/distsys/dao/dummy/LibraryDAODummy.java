@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.uni.iit.distsys.core.model.Book;
 import com.uni.iit.distsys.service.dao.LibraryDAO;
@@ -20,16 +21,15 @@ public class LibraryDAODummy implements LibraryDAO {
 		this.books = new HashSet<>();
 
 		try {
-			this.books.add(
-					new Book("J. R. R. Tolkien", "The hobbit", "HarperCollins", 2013, "English", 5, "9780007525508"));
-			this.books.add(new Book("J. R. R. Tolkien", "The hobbit", "Ciceró", 2004, "Hungarian", 4, "9780007525507"));
-			this.books.add(new Book("J. R. R. Tolkien", "The Fellowship of the Ring", "HarperCollins", 2014, "English",
-					2, "9780007525506"));
-			this.books.add(new Book("J. R. R. Tolkien", "The Fellowship of the Ring", "Ciceró", 2004, "Hungarian", 3,
-					"9780007525505"));
-
-			this.books.add(new Book("George R. R. Martin", "A Feast for Crows", "Pécsi Direkt Kft.", 2006, "Hungarian",
-					dateFormat.parse("2016-12-31"), 3, "9780007525504", false, false));
+			this.books.add(new Book("J. R. R. Tolkien", "The Lord of the Rings: The Fellowship of the Ring",
+					"HarperCollins", "English", dateFormat.parse("2016-12-31"),
+					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, true, null));
+			this.books.add(new Book("J. R. R. Tolkien", "The Lord of the Rings: The Fellowship of the Ring",
+					"HarperCollins", "English", dateFormat.parse("2017-01-29"),
+					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, true, null));
+			this.books.add(new Book("J. R. R. Tolkien", "The Lord of the Rings: The Fellowship of the Ring",
+					"HarperCollins", "English", dateFormat.parse("2017-01-30"),
+					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, false, dateFormat.parse("2017-09-15")));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,6 +73,17 @@ public class LibraryDAODummy implements LibraryDAO {
 		Collection<Book> ret = new ArrayList<>();
 		for (Book b : books) {
 			if (b.isAvailable()) {
+				ret.add(b);
+			}
+		}
+		return ret;
+	}
+	
+	@Override
+	public Collection<Book> listAllNotAvailableBook() {
+		Collection<Book> ret = new ArrayList<>();
+		for (Book b : books) {
+			if (!b.isAvailable()) {
 				ret.add(b);
 			}
 		}

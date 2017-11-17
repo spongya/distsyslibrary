@@ -17,4 +17,6 @@ public interface LibraryDAO {
 	Collection<Book> listAllBookByTitle(String title);
 
 	Collection<Book> listAllBookByAuthor(String author);
+
+	Collection<Book> listAllNotAvailableBook();
 }

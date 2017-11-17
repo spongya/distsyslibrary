@@ -6,80 +6,46 @@ public class Book {
 	private String author;
 	private String title;
 	private String publisher;
-	private int publishingYear;
 	private Date registrationDate;
 	private String language;
-	private int version;
 	private String isbnNumber;
 	private boolean isReserved;
 	private boolean isAvailable;
+	private Date checkoutDate;
 
-	public Book(String author, String title, String publisher, int publishingYear, String language,
-			Date registrationDate, int version, String isbnNumber, boolean isReserved, boolean isAvailable) {
+	public Book(String author, String title, String publisher, String language, Date registrationDate,
+			String isbnNumber, boolean isReserved, boolean isAvailable, Date checkoutDate) {
 		this.author = author;
 		this.title = title;
 		this.publisher = publisher;
-		this.publishingYear = publishingYear;
 		this.registrationDate = registrationDate;
 		this.language = language;
-		this.version = version;
 		this.isbnNumber = isbnNumber;
 		this.isReserved = isReserved;
 		this.isAvailable = isAvailable;
+		this.checkoutDate = checkoutDate;
 	}
 
-	public Book(String author, String title, String publisher, int publishingYear, String language, int version,
-			String isbnNumber) {
+	public Book(String author, String title, String publisher, int publishingYear, String language, String isbnNumber) {
 		this.author = author;
 		this.title = title;
 		this.publisher = publisher;
-		this.publishingYear = publishingYear;
 		this.registrationDate = new Date();
 		this.language = language;
-		this.version = version;
 		this.isbnNumber = isbnNumber;
 		this.isReserved = false;
 		this.isAvailable = true;
+		this.checkoutDate = null;
 	}
-	
+
 	public Book(String author, String title, String language) {
 		this.author = author;
 		this.title = title;
-		this.publisher = "";
-		this.publishingYear = 0;
-		this.registrationDate = new Date();
 		this.language = language;
-		this.version = 0;
-		this.isbnNumber = "";
-		this.isReserved = false;
-		this.isAvailable = true;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Book [author=");
-		builder.append(author);
-		builder.append(", title=");
-		builder.append(title);
-		builder.append(", publisher=");
-		builder.append(publisher);
-		builder.append(", publishingYear=");
-		builder.append(publishingYear);
-		builder.append(", registrationDate=");
-		builder.append(registrationDate);
-		builder.append(", language=");
-		builder.append(language);
-		builder.append(", version=");
-		builder.append(version);
-		builder.append(", isbnNumber=");
-		builder.append(isbnNumber);
-		builder.append(", isReserved=");
-		builder.append(isReserved);
-		builder.append(", isAvailable=");
-		builder.append(isAvailable);
-		builder.append("]");
-		return builder.toString();
+	public Date getCheckoutDate() {
+		return checkoutDate;
 	}
 
 	public String getAuthor() {
@@ -106,14 +72,6 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	public int getPublishingYear() {
-		return publishingYear;
-	}
-
-	public void setPublishingYear(int publishingYear) {
-		this.publishingYear = publishingYear;
-	}
-
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
@@ -128,14 +86,6 @@ public class Book {
 
 	public void setLanguage(String language) {
 		this.language = language;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	public String getIsbnNumber() {
@@ -160,14 +110,40 @@ public class Book {
 
 	public void checkout() {
 		this.isAvailable = false;
+		this.checkoutDate = new Date();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Book)) {
 			return false;
 		}
+		return this.author.equals(((Book) obj).author) && this.title.equals(((Book) obj).title)
+				&& this.language.equals(((Book) obj).language);
+	}
 
-		return this.author.equals(((Book) obj).author) && this.title.equals(((Book) obj).title) && this.language.equals(((Book) obj).language);
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Book [author=");
+		builder.append(author);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", publisher=");
+		builder.append(publisher);
+		builder.append(", registrationDate=");
+		builder.append(registrationDate);
+		builder.append(", language=");
+		builder.append(language);
+		builder.append(", isbnNumber=");
+		builder.append(isbnNumber);
+		builder.append(", isReserved=");
+		builder.append(isReserved);
+		builder.append(", isAvailable=");
+		builder.append(isAvailable);
+		builder.append(", checkoutDate=");
+		builder.append(checkoutDate);
+		builder.append("]");
+		return builder.toString();
 	}
 }
