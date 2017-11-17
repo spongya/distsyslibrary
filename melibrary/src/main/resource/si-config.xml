@@ -41,12 +41,12 @@
 		filename-generator-expression="'chat.log'" mode="APPEND" />
 
 	<int-http:outbound-gateway request-channel="availableLibraryRequestChannel"
-		url="http://localhost:8080/web/library/getAvailables" http-method="GET"
+		url="http://localhost:8080/library-web/library/getAvailables" http-method="GET"
 		expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
 	</int-http:outbound-gateway>
 	
 	<int-http:outbound-gateway request-channel="notAvailableLibraryRequestChannel"
-		url="http://localhost:8080/web/library/getNotAvailables" http-method="GET"
+		url="http://localhost:8080/library-web/library/getNotAvailables" http-method="GET"
 		expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
 	</int-http:outbound-gateway>
 

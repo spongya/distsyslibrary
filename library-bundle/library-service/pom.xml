@@ -5,11 +5,12 @@
     <artifactId>library-bundle</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>dao</artifactId>
+  <artifactId>library-service</artifactId>
+  
   <dependencies>
   	<dependency>
   		<groupId>com.uni.iit.distsys</groupId>
-  		<artifactId>service</artifactId>
+  		<artifactId>core</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>

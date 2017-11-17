@@ -5,13 +5,5 @@
     <artifactId>library-bundle</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>service</artifactId>
-  
-  <dependencies>
-  	<dependency>
-  		<groupId>com.uni.iit.distsys</groupId>
-  		<artifactId>core</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
+  <artifactId>library-core</artifactId>
 </project>

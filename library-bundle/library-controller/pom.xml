@@ -6,7 +6,7 @@
 		<artifactId>library-bundle</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>controller</artifactId>
+	<artifactId>library-controller</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>

@@ -11,6 +11,7 @@
 bin/**
 tmp/**
 tmp/**/*
+build/**
 *.tmp
 *.bak
 *.swp

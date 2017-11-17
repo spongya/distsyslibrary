@@ -12,9 +12,6 @@ public class App {
 		ApplicationContext context = new ClassPathXmlApplicationContext("si-config.xml");
 		MessageChannel stoutChannel = (MessageChannel) context.getBean("chatChannel", MessageChannel.class);
 
-//		Message<String> msg = MessageBuilder.withPayload("Hello World from Channel").build();
-//		stoutChannel.send(msg);
-
 		LibrarySearchGateway gateway = (LibrarySearchGateway) context.getBean("LibrarySearchGateway",
 				LibrarySearchGateway.class);
 
