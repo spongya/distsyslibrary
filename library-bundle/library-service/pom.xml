@@ -10,7 +10,7 @@
   <dependencies>
   	<dependency>
   		<groupId>com.uni.iit.distsys</groupId>
-  		<artifactId>core</artifactId>
+  		<artifactId>library-core</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>

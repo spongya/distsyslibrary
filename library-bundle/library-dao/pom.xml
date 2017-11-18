@@ -9,7 +9,7 @@
   <dependencies>
   	<dependency>
   		<groupId>com.uni.iit.distsys</groupId>
-  		<artifactId>service</artifactId>
+  		<artifactId>library-service</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   </dependencies>
