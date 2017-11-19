@@ -6,4 +6,11 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>finecalc-service</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.uni.iit.distsys</groupId>
+  		<artifactId>finecalc-core</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
