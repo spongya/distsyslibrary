@@ -2,8 +2,8 @@ package com.uni.iit.distsys.service.impl;
 
 import java.util.Collection;
 
-import com.uni.iit.distsys.core.BookFine;
-import com.uni.iit.distsys.service.FineCalculatorSearchService;
+import com.uni.iit.distsys.core.model.BookFine;
+import com.uni.iit.distsys.core.service.FineCalculatorSearchService;
 import com.uni.iit.distsys.service.dao.FineDAO;
 
 public class FineCalculatorSearchServiceImpl implements FineCalculatorSearchService {
@@ -15,8 +15,8 @@ public class FineCalculatorSearchServiceImpl implements FineCalculatorSearchServ
 	}
 
 	@Override
-	public Collection<BookFine> listAllCheckedOutBooks() {
-		return this.dao.listAllCheckedOutBooks();
+	public Collection<BookFine> listAllBookFine() {
+		return this.dao.listAllBookFine();
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.uni.iit.distsys.core;
+package com.uni.iit.distsys.core.model;
 
 import java.util.Date;
 
@@ -10,9 +10,15 @@ public class BookFine {
 	private Date checkoutDate;
 
 	public BookFine(int amount, String currency, String details, Date checkoutDate) {
-		super();
 		this.amount = amount;
 		this.currency = currency;
+		this.details = details;
+		this.checkoutDate = checkoutDate;
+	}
+	
+	public BookFine(String details, Date checkoutDate) {
+		this.amount = 0;
+		this.currency = "";
 		this.details = details;
 		this.checkoutDate = checkoutDate;
 	}
