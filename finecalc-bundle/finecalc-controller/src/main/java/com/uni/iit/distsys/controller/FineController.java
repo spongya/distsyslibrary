@@ -32,9 +32,33 @@ public class FineController {
 		this.managerService.addNewCheckedoutBook(author, title, language, checkoutDate);
 	}
 	
-	@RequestMapping(value = "getBookFines")
+	@RequestMapping(value = "calculate", method = RequestMethod.POST, produces = "text/plain")
+	@ResponseBody
+	public String calculateFinesInHuf(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		this.managerService.calculateFinesInHuf(date);
+		
+		return "Fines calculated successfully in HUF";
+	}
+	
+	@RequestMapping(value = "getFines")
 	@ResponseBody
 	public Collection<BookFine> getAllBookFines() {
 		return this.searchService.listAllBookFine();
+	}
+	
+	@RequestMapping(value = "set/loanperiod", method = RequestMethod.POST, produces = "text/plain")
+	@ResponseBody
+	public String setLoanPeriod(@RequestParam("days") int newDays) {
+		this.managerService.setLoanPeriod(newDays);
+		
+		return "The loan period has been set to " + newDays + " day(s)";
+	}
+	
+	@RequestMapping(value = "set/fine", method = RequestMethod.POST, produces = "text/plain")
+	@ResponseBody
+	public String setFinePerDay(@RequestParam("fine") int newFineInHuf) {
+		this.managerService.setFinePerDay(newFineInHuf);
+		
+		return "The fine per day has been set to " + newFineInHuf + " HUF";
 	}
 }

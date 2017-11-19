@@ -1,5 +1,8 @@
 package com.uni.iit.distsys.dao.dummy;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,7 +17,15 @@ public class FineDAODummy implements FineDAO {
 	private Collection<BookFine> fines;
 
 	public FineDAODummy(int loanPeriodInDays, int fineForADayInHuf) {
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		this.fines = new HashSet<>();
+		
+		try {
+			this.fines.add(new BookFine("George R. R. Martin: A Game of Thrones (Hungarian)", format.parse("2017-09-01")));
+			this.fines.add(new BookFine("George R. R. Martin: A Clash of Kings (Hungarian)", format.parse("2017-11-01")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		this.loanPeriodInDays = loanPeriodInDays;
 		this.fineForADayInHuf = fineForADayInHuf;

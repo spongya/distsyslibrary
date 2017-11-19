@@ -1,8 +1,5 @@
 package com.uni.iit.distsys.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
@@ -25,17 +22,9 @@ public class FineCalculatorManagerServiceImpl implements FineCalculatorManagerSe
 	}
 
 	@Override
-	public Collection<BookFine> listAllBookFineInHuf(String date) {
-		Date dateForCalculate = new Date();
-
-		if (!date.toLowerCase().equals("today")) {
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				dateForCalculate = dateFormat.parse(date);
-			} catch (ParseException e) {
-				System.err.println("Date parse error in FineCalculatorManagerServiceImpl");
-				e.printStackTrace();
-			}
+	public void calculateFinesInHuf(Date date) {
+		if (date == null) {
+			date = new Date();
 		}
 
 		Collection<BookFine> bookFines = this.dao.listAllBookFine();
@@ -43,7 +32,7 @@ public class FineCalculatorManagerServiceImpl implements FineCalculatorManagerSe
 		int fine = this.dao.getFineForADayInHuf();
 
 		for (BookFine bookFine : bookFines) {
-			int diff = (int) Duration.between(bookFine.getCheckoutDate().toInstant(), dateForCalculate.toInstant()).toDays();
+			int diff = (int) Duration.between(bookFine.getCheckoutDate().toInstant(), date.toInstant()).toDays();
 
 			if (diff > loanPeriodInDays) {
 				bookFine.setAmount((diff - loanPeriodInDays) * fine);
@@ -53,6 +42,15 @@ public class FineCalculatorManagerServiceImpl implements FineCalculatorManagerSe
 				bookFine.setCurrency("HUF");
 			}
 		}
-		return bookFines;
+	}
+
+	@Override
+	public void setLoanPeriod(int newDays) {
+		this.dao.setLoanPeriodInDays(newDays);
+	}
+
+	@Override
+	public void setFinePerDay(int newFineInHuf) {
+		this.dao.setFineForADayInHuf(newFineInHuf);
 	}
 }
