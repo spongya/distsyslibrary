@@ -31,7 +31,6 @@ public class LibraryDAODummy implements LibraryDAO {
 					"HarperCollins", "English", dateFormat.parse("2017-01-30"),
 					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, false, dateFormat.parse("2017-09-15")));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

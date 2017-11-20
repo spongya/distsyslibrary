@@ -16,16 +16,41 @@
 			request-timeout="1000" />
 		<int:method name="listAllNotAvailableBook" request-channel="notAvailableLibraryRequestChannel"
 			request-timeout="1000" />
-		<!-- <int:method name="addPerson" request-channel="personRegistrationRequestChannel" 
-			/> -->
+		<int:method name="addBook" request-channel="addingBookRequestChannel" />
 	</int:gateway>
 
 	<int:channel id="availableLibraryRequestChannel" />
 	<int:channel id="notAvailableLibraryRequestChannel" />
+	<int:channel id="addingBookRequestChannel" />
 
 	<int:channel id="stdOutChannel" />
 	<int:channel id="chatChannel" />
 	<int:channel id="surveillanceChannel" />
+
+	<int-http:outbound-gateway request-channel="availableLibraryRequestChannel"
+		url="http://localhost:8080/library-web/library/getAvailables"
+		http-method="GET" expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="notAvailableLibraryRequestChannel"
+		url="http://localhost:8080/library-web/library/getNotAvailables"
+		http-method="GET" expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="addingBookRequestChannel"
+		url="http://localhost:8080/library-web/library/add?author={author}&amp;title={title}&amp;publisher={publisher}&amp;language={language}&amp;isbnNumber={isbnNumber}"
+		http-method="GET" reply-channel="stdOutChannel"
+		expected-response-type="java.lang.String">
+		<int-http:uri-variable name="title" expression="payload.getTitle()" />
+		<int-http:uri-variable name="author"
+			expression="payload.getAuthor()" />
+		<int-http:uri-variable name="publisher"
+			expression="payload.getPublisher()" />
+		<int-http:uri-variable name="language"
+			expression="payload.getLanguage()" />
+		<int-http:uri-variable name="isbnNumber"
+			expression="payload.getIsbnNumber()" />
+	</int-http:outbound-gateway>
 
 	<int:recipient-list-router id="chatRouter"
 		input-channel="chatChannel">
@@ -39,16 +64,6 @@
 	<int-file:outbound-channel-adapter
 		id="surveillanceAdapter" channel="surveillanceChannel" directory="surveilance"
 		filename-generator-expression="'chat.log'" mode="APPEND" />
-
-	<int-http:outbound-gateway request-channel="availableLibraryRequestChannel"
-		url="http://localhost:8080/library-web/library/getAvailables" http-method="GET"
-		expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
-	</int-http:outbound-gateway>
-	
-	<int-http:outbound-gateway request-channel="notAvailableLibraryRequestChannel"
-		url="http://localhost:8080/library-web/library/getNotAvailables" http-method="GET"
-		expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
-	</int-http:outbound-gateway>
 
 	<!-- <int-http:outbound-gateway request-channel="personRegistrationRequestChannel" -->
 	<!-- url="http://localhost:8080/person/register?fn={fn}&amp;ln={ln}&amp;gender={gender}&amp;birth={birth}" -->

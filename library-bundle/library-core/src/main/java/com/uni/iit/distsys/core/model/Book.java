@@ -26,7 +26,7 @@ public class Book {
 		this.checkoutDate = checkoutDate;
 	}
 
-	public Book(String author, String title, String publisher, int publishingYear, String language, String isbnNumber) {
+	public Book(String author, String title, String publisher, String language, String isbnNumber) {
 		this.author = author;
 		this.title = title;
 		this.publisher = publisher;

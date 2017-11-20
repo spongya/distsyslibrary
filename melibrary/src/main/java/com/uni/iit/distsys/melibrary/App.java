@@ -22,5 +22,7 @@ public class App {
 		for (Book book : gateway.listAllNotAvailableBook()) {
 			System.out.println(book);
 		}
+		
+		gateway.addBook(new Book("Asd", "Asd", "Asd", "Hun", "123456789"));
 	}
 }

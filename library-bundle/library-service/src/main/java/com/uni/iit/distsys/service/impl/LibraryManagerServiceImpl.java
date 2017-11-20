@@ -18,8 +18,8 @@ public class LibraryManagerServiceImpl implements LibraryManagerService {
 	}
 
 	@Override
-	public void addNewBook(String author, String title, String publisher, int publishingYear, String language, String isbnNumber) {
-		this.dao.addNew(new Book(author, title, publisher, publishingYear, language, isbnNumber));
+	public void addNewBook(String author, String title, String publisher, String language, String isbnNumber) {
+		this.dao.addNew(new Book(author, title, publisher, language, isbnNumber));
 	}
 
 	@Override

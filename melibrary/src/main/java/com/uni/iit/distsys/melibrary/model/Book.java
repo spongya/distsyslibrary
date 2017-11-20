@@ -16,10 +16,17 @@ public class Book {
 	public Book() {
 		
 	}
+	
+	public Book(String author, String title, String publisher, String language, String isbnNumber) {
+		this.author = author;
+		this.title = title;
+		this.publisher = publisher;
+		this.language = language;
+		this.isbnNumber = isbnNumber;
+	}
 
 	public Book(String author, String title, String publisher, Date registrationDate, String language,
 			String isbnNumber, boolean isReserved, boolean isAvailable, Date checkoutDate) {
-		super();
 		this.author = author;
 		this.title = title;
 		this.publisher = publisher;

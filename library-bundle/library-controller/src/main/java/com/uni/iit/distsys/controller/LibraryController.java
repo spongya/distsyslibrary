@@ -24,35 +24,35 @@ public class LibraryController {
 		this.searchService = searchService;
 	}
 
-	@RequestMapping(value = "add", method = RequestMethod.POST, produces = "text/plain")
+	@RequestMapping(value = "add", method = RequestMethod.GET)
 	@ResponseBody
 	public String addNewBook(@RequestParam("author") String author, @RequestParam("title") String title,
-			@RequestParam("publisher") String publisher, @RequestParam("publishingYear") int publishingYear,
-			@RequestParam("language") String language, @RequestParam("isbnNumber") String isbnNumber) {
-		this.managerService.addNewBook(author, title, publisher, publishingYear, language, isbnNumber);
-
-		return "New book added";
+			@RequestParam("publisher") String publisher, @RequestParam("language") String language,
+			@RequestParam("isbnNumber") String isbnNumber) {
+		this.managerService.addNewBook(author, title, publisher, language, isbnNumber);
+		
+		return "New book added!";
 	}
 
-	@RequestMapping(value = "reserve", method = RequestMethod.POST, produces = "text/plain")
+	@RequestMapping(value = "reserve", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String reserveBook(@RequestParam("author") String author, @RequestParam("title") String title,
 			@RequestParam("lang") String language) {
 		if (this.managerService.reserveBook(new Book(author, title, language))) {
 			return "Book reserved";
 		}
-		
+
 		return "Reserve failed!";
 	}
-	
-	@RequestMapping(value = "checkout", method = RequestMethod.POST, produces = "text/plain")
+
+	@RequestMapping(value = "checkout", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String checkoutBook(@RequestParam("author") String author, @RequestParam("title") String title,
 			@RequestParam("lang") String language) {
 		if (this.managerService.checkOutBook(new Book(author, title, language))) {
 			return "Book checked out";
 		}
-		
+
 		return "Checkout failed";
 	}
 
@@ -61,7 +61,7 @@ public class LibraryController {
 	public Collection<Book> getAllAvailable() {
 		return this.searchService.listAllAvailableBook();
 	}
-	
+
 	@RequestMapping(value = "getNotAvailables")
 	@ResponseBody
 	public Collection<Book> getAllNotAvailable() {
