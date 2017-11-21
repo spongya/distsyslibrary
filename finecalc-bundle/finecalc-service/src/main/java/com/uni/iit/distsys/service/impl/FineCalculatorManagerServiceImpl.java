@@ -22,7 +22,9 @@ public class FineCalculatorManagerServiceImpl implements FineCalculatorManagerSe
 	}
 
 	@Override
-	public void calculateFinesInHuf(Date date) {
+	public int calculateFinesInHuf(Date date) {
+		int retSum = 0;
+		
 		if (date == null) {
 			date = new Date();
 		}
@@ -35,13 +37,19 @@ public class FineCalculatorManagerServiceImpl implements FineCalculatorManagerSe
 			int diff = (int) Duration.between(bookFine.getCheckoutDate().toInstant(), date.toInstant()).toDays();
 
 			if (diff > loanPeriodInDays) {
-				bookFine.setAmount((diff - loanPeriodInDays) * fine);
+				int amount = (diff - loanPeriodInDays) * fine;
+				
+				bookFine.setAmount(amount);
 				bookFine.setCurrency("HUF");
+				
+				retSum += amount;
 			} else {
 				bookFine.setAmount(0);
 				bookFine.setCurrency("HUF");
 			}
 		}
+		
+		return retSum;
 	}
 
 	@Override

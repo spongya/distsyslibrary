@@ -12,17 +12,24 @@ public class Book {
 	private boolean isReserved;
 	private boolean isAvailable;
 	private Date checkoutDate;
-	
+
 	public Book() {
-		
+
 	}
-	
+
 	public Book(String author, String title, String publisher, String language, String isbnNumber) {
 		this.author = author;
 		this.title = title;
 		this.publisher = publisher;
 		this.language = language;
 		this.isbnNumber = isbnNumber;
+	}
+
+	public Book(String author, String title, String language, Date checkoutDate) {
+		this.author = author;
+		this.title = title;
+		this.language = language;
+		this.checkoutDate = checkoutDate;
 	}
 
 	public Book(String author, String title, String publisher, Date registrationDate, String language,

@@ -6,7 +6,7 @@ import org.springframework.integration.annotation.Payload;
 
 import com.uni.iit.distsys.melibrary.model.Book;
 
-public interface LibrarySearchGateway {
+public interface LibraryGateway {
 	@Payload("new java.util.Date()")
 	Collection<Book> listAllAvailableBook();
 

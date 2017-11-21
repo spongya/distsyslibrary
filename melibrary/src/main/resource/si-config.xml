@@ -10,8 +10,8 @@
         http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
         http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd">
 
-	<int:gateway id="LibrarySearchGateway"
-		service-interface="com.uni.iit.distsys.melibrary.gateway.LibrarySearchGateway">
+	<int:gateway id="libraryGateway"
+		service-interface="com.uni.iit.distsys.melibrary.gateway.LibraryGateway">
 		<int:method name="listAllAvailableBook" request-channel="availableLibraryRequestChannel"
 			request-timeout="1000" />
 		<int:method name="listAllNotAvailableBook" request-channel="notAvailableLibraryRequestChannel"
@@ -19,8 +19,10 @@
 		<int:method name="addBook" request-channel="addingBookRequestChannel" />
 		<int:method name="reserveBook" request-channel="reserveBookRequestChannel" />
 		<int:method name="checkoutBook" request-channel="checkoutBookRequestChannel" />
-		<int:method name="getAllByAuthor" request-channel="byAuthorLibraryRequestChannel" />
-		<int:method name="getAllByTitle" request-channel="byTitleLibraryRequestChannel" />
+		<int:method name="getAllByAuthor" request-channel="byAuthorLibraryRequestChannel"
+			request-timeout="1000" />
+		<int:method name="getAllByTitle" request-channel="byTitleLibraryRequestChannel"
+			request-timeout="1000" />
 	</int:gateway>
 
 	<int:channel id="availableLibraryRequestChannel" />
@@ -30,10 +32,6 @@
 	<int:channel id="checkoutBookRequestChannel" />
 	<int:channel id="byAuthorLibraryRequestChannel" />
 	<int:channel id="byTitleLibraryRequestChannel" />
-
-	<int:channel id="stdOutChannel" />
-	<int:channel id="chatChannel" />
-	<int:channel id="surveillanceChannel" />
 
 	<int-http:outbound-gateway request-channel="availableLibraryRequestChannel"
 		url="http://localhost:8080/library-web/library/getAvailables"
@@ -87,12 +85,72 @@
 		http-method="GET" expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
 		<int-http:uri-variable name="author" expression="payload" />
 	</int-http:outbound-gateway>
-	
+
 	<int-http:outbound-gateway request-channel="byTitleLibraryRequestChannel"
 		url="http://localhost:8080/library-web/library/getByTitle?title={title}"
 		http-method="GET" expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
 		<int-http:uri-variable name="title" expression="payload" />
 	</int-http:outbound-gateway>
+
+	<int:gateway id="fineCalcGateway"
+		service-interface="com.uni.iit.distsys.melibrary.gateway.FineCalcGateway">
+		<int:method name="addNewCheckedoutBook" request-channel="addingNewCheckedoutBookRequestChannel" />
+		<int:method name="calculateFinesInHuf" request-channel="calculateFinesInHufRequestChannel" />
+		<int:method name="getAllBookFines" request-channel="getAllBookFinesRequestChannel"
+			request-timeout="1000" />
+		<int:method name="setLoanPeriod" request-channel="setLoanPeriodRequestChannel" />
+		<int:method name="setFinePerDay" request-channel="setFinePerDayRequestChannel" />
+	</int:gateway>
+
+	<int:channel id="addingNewCheckedoutBookRequestChannel" />
+	<int:channel id="calculateFinesInHufRequestChannel" />
+	<int:channel id="getAllBookFinesRequestChannel" />
+	<int:channel id="setLoanPeriodRequestChannel" />
+	<int:channel id="setFinePerDayRequestChannel" />
+
+	<int-http:outbound-gateway request-channel="addingNewCheckedoutBookRequestChannel"
+		url="http://localhost:9080/finecalc-web/fine/add?author={author}&amp;title={title}&amp;lang={lang}&amp;checkdate={checkdate}"
+		http-method="GET" reply-channel="stdOutChannel"
+		expected-response-type="java.lang.String">
+		<int-http:uri-variable name="title" expression="payload.getTitle()" />
+		<int-http:uri-variable name="author"
+			expression="payload.getAuthor()" />
+		<int-http:uri-variable name="lang"
+			expression="payload.getLanguage()" />
+		<int-http:uri-variable name="checkdate"
+			expression="(new java.text.SimpleDateFormat('yyyy-MM-dd')).format(payload.getCheckoutDate())" />
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="calculateFinesInHufRequestChannel"
+		url="http://localhost:9080/finecalc-web/fine/calculate?date={date}"
+		http-method="GET" reply-channel="stdOutChannel"
+		expected-response-type="java.lang.String">
+		<int-http:uri-variable name="date"
+			expression="(new java.text.SimpleDateFormat('yyyy-MM-dd')).format(payload)" />
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="getAllBookFinesRequestChannel"
+		url="http://localhost:9080/finecalc-web/fine/getFines" http-method="GET"
+		expected-response-type="com.uni.iit.distsys.melibrary.model.BookFine[]">
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="setLoanPeriodRequestChannel"
+		url="http://localhost:9080/finecalc-web/fine/set/loanperiod?days={days}"
+		http-method="GET" reply-channel="stdOutChannel"
+		expected-response-type="java.lang.String">
+		<int-http:uri-variable name="days" expression="payload" />
+	</int-http:outbound-gateway>
+	
+	<int-http:outbound-gateway request-channel="setFinePerDayRequestChannel"
+		url="http://localhost:9080/finecalc-web/fine/set/fine?fine={fine}"
+		http-method="GET" reply-channel="stdOutChannel"
+		expected-response-type="java.lang.String">
+		<int-http:uri-variable name="fine" expression="payload" />
+	</int-http:outbound-gateway>
+
+	<int:channel id="stdOutChannel" />
+	<int:channel id="chatChannel" />
+	<int:channel id="surveillanceChannel" />
 
 	<int:recipient-list-router id="chatRouter"
 		input-channel="chatChannel">
@@ -106,20 +164,4 @@
 	<int-file:outbound-channel-adapter
 		id="surveillanceAdapter" channel="surveillanceChannel" directory="surveilance"
 		filename-generator-expression="'chat.log'" mode="APPEND" />
-
-	<!-- <int-http:outbound-gateway request-channel="personRegistrationRequestChannel" -->
-	<!-- url="http://localhost:8080/person/register?fn={fn}&amp;ln={ln}&amp;gender={gender}&amp;birth={birth}" -->
-	<!-- http-method="GET" reply-channel="stdOutChannel" -->
-	<!-- expected-response-type="java.lang.String"> -->
-
-	<!-- <int-http:uri-variable name="fn" -->
-	<!-- expression="payload.getFirstName()" /> -->
-	<!-- <int-http:uri-variable name="ln" -->
-	<!-- expression="payload.getLastName()" /> -->
-	<!-- <int-http:uri-variable name="gender" expression="payload.getSex()" 
-		/> -->
-	<!-- <int-http:uri-variable name="birth" -->
-	<!-- expression="(new java.text.SimpleDateFormat('yyyy-MM-dd')).format(payload.getBirthDate())" 
-		/> -->
-	<!-- </int-http:outbound-gateway> -->
 </beans>

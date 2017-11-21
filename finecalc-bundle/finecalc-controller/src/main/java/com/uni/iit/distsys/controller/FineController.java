@@ -25,19 +25,22 @@ public class FineController {
 		this.searchService = searchService;
 	}
 
-	@RequestMapping(value = "add", method = RequestMethod.POST)
-	public void addNewCheckedoutBook(@RequestParam("author") String author, @RequestParam("title") String title,
+	@RequestMapping(value = "add", method = RequestMethod.GET)
+	@ResponseBody
+	public String addNewCheckedoutBook(@RequestParam("author") String author, @RequestParam("title") String title,
 			@RequestParam("lang") String language,
 			@RequestParam("checkdate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkoutDate) {
 		this.managerService.addNewCheckedoutBook(author, title, language, checkoutDate);
+		
+		return "New checked out book added!";
 	}
 	
-	@RequestMapping(value = "calculate", method = RequestMethod.POST, produces = "text/plain")
+	@RequestMapping(value = "calculate", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String calculateFinesInHuf(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-		this.managerService.calculateFinesInHuf(date);
+		int total = this.managerService.calculateFinesInHuf(date);
 		
-		return "Fines calculated successfully in HUF";
+		return "Fines calculated successfully in HUF. Total: " + total + " HUF";
 	}
 	
 	@RequestMapping(value = "getFines")
@@ -46,7 +49,7 @@ public class FineController {
 		return this.searchService.listAllBookFine();
 	}
 	
-	@RequestMapping(value = "set/loanperiod", method = RequestMethod.POST, produces = "text/plain")
+	@RequestMapping(value = "set/loanperiod", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String setLoanPeriod(@RequestParam("days") int newDays) {
 		this.managerService.setLoanPeriod(newDays);
@@ -54,7 +57,7 @@ public class FineController {
 		return "The loan period has been set to " + newDays + " day(s)";
 	}
 	
-	@RequestMapping(value = "set/fine", method = RequestMethod.POST, produces = "text/plain")
+	@RequestMapping(value = "set/fine", method = RequestMethod.GET, produces = "text/plain")
 	@ResponseBody
 	public String setFinePerDay(@RequestParam("fine") int newFineInHuf) {
 		this.managerService.setFinePerDay(newFineInHuf);

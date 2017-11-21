@@ -6,7 +6,7 @@ public interface FineCalculatorManagerService {
 	
 	void addNewCheckedoutBook(String author, String title, String language, Date checkoutDate);
 	
-	void calculateFinesInHuf(Date date);
+	int calculateFinesInHuf(Date date);
 	
 	void setLoanPeriod(int newDays);
 	
