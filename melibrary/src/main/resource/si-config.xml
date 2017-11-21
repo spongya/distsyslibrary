@@ -17,11 +17,19 @@
 		<int:method name="listAllNotAvailableBook" request-channel="notAvailableLibraryRequestChannel"
 			request-timeout="1000" />
 		<int:method name="addBook" request-channel="addingBookRequestChannel" />
+		<int:method name="reserveBook" request-channel="reserveBookRequestChannel" />
+		<int:method name="checkoutBook" request-channel="checkoutBookRequestChannel" />
+		<int:method name="getAllByAuthor" request-channel="byAuthorLibraryRequestChannel" />
+		<int:method name="getAllByTitle" request-channel="byTitleLibraryRequestChannel" />
 	</int:gateway>
 
 	<int:channel id="availableLibraryRequestChannel" />
 	<int:channel id="notAvailableLibraryRequestChannel" />
 	<int:channel id="addingBookRequestChannel" />
+	<int:channel id="reserveBookRequestChannel" />
+	<int:channel id="checkoutBookRequestChannel" />
+	<int:channel id="byAuthorLibraryRequestChannel" />
+	<int:channel id="byTitleLibraryRequestChannel" />
 
 	<int:channel id="stdOutChannel" />
 	<int:channel id="chatChannel" />
@@ -50,6 +58,40 @@
 			expression="payload.getLanguage()" />
 		<int-http:uri-variable name="isbnNumber"
 			expression="payload.getIsbnNumber()" />
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="reserveBookRequestChannel"
+		url="http://localhost:8080/library-web/library/reserve?author={author}&amp;title={title}&amp;lang={lang}"
+		http-method="GET" reply-channel="stdOutChannel"
+		expected-response-type="java.lang.String">
+		<int-http:uri-variable name="title" expression="payload.getTitle()" />
+		<int-http:uri-variable name="author"
+			expression="payload.getAuthor()" />
+		<int-http:uri-variable name="lang"
+			expression="payload.getLanguage()" />
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="checkoutBookRequestChannel"
+		url="http://localhost:8080/library-web/library/checkout?author={author}&amp;title={title}&amp;lang={lang}"
+		http-method="GET" reply-channel="stdOutChannel"
+		expected-response-type="java.lang.String">
+		<int-http:uri-variable name="title" expression="payload.getTitle()" />
+		<int-http:uri-variable name="author"
+			expression="payload.getAuthor()" />
+		<int-http:uri-variable name="lang"
+			expression="payload.getLanguage()" />
+	</int-http:outbound-gateway>
+
+	<int-http:outbound-gateway request-channel="byAuthorLibraryRequestChannel"
+		url="http://localhost:8080/library-web/library/getByAuthor?author={author}"
+		http-method="GET" expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
+		<int-http:uri-variable name="author" expression="payload" />
+	</int-http:outbound-gateway>
+	
+	<int-http:outbound-gateway request-channel="byTitleLibraryRequestChannel"
+		url="http://localhost:8080/library-web/library/getByTitle?title={title}"
+		http-method="GET" expected-response-type="com.uni.iit.distsys.melibrary.model.Book[]">
+		<int-http:uri-variable name="title" expression="payload" />
 	</int-http:outbound-gateway>
 
 	<int:recipient-list-router id="chatRouter"

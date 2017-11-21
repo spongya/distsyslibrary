@@ -12,6 +12,14 @@ public interface LibrarySearchGateway {
 
 	@Payload("new java.util.Date()")
 	Collection<Book> listAllNotAvailableBook();
+
+	Collection<Book> getAllByAuthor(@Payload String author);
+	
+	Collection<Book> getAllByTitle(@Payload String title);
 	
 	void addBook(@Payload Book book);
+	
+	void reserveBook(@Payload Book book);
+	
+	void checkoutBook(@Payload Book book);
 }

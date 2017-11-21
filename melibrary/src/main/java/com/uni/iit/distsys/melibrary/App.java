@@ -18,11 +18,22 @@ public class App {
 		for (Book book : gateway.listAllAvailableBook()) {
 			System.out.println(book);
 		}
-		
+
 		for (Book book : gateway.listAllNotAvailableBook()) {
 			System.out.println(book);
 		}
-		
-		gateway.addBook(new Book("Asd", "Asd", "Asd", "Hun", "123456789"));
+
+		gateway.addBook(new Book("Asd", "Asd", "Asd", "Hun", "123123"));
+		gateway.checkoutBook(new Book("Asd", "Asd", "Asd", "Hun", "123123"));
+		gateway.addBook(new Book("Asd2", "Asd2", "Asd2", "Hun", "123123"));
+		gateway.reserveBook(new Book("Asd2", "Asd2", "", "Hun", ""));
+
+		for (Book book : gateway.getAllByAuthor("Asd")) {
+			System.out.println(book);
+		}
+
+		for (Book book : gateway.getAllByTitle("Asd2")) {
+			System.out.println(book);
+		}
 	}
 }
