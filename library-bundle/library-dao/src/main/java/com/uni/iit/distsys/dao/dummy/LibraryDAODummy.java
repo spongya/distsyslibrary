@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.uni.iit.distsys.core.model.Book;
@@ -18,14 +17,14 @@ public class LibraryDAODummy implements LibraryDAO {
 	public LibraryDAODummy() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-		this.books = new HashSet<>();
+		this.books = new ArrayList<>();
 
 		try {
 			this.books.add(new Book("J. R. R. Tolkien", "The Lord of the Rings: The Fellowship of the Ring",
 					"HarperCollins", "English", dateFormat.parse("2016-12-31"),
 					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, true, null));
 			this.books.add(new Book("J. R. R. Tolkien", "The Lord of the Rings: The Fellowship of the Ring",
-					"HarperCollins", "English", dateFormat.parse("2017-01-29"),
+					"HarperCollins", "Hungarian", dateFormat.parse("2017-01-29"),
 					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, true, null));
 			this.books.add(new Book("J. R. R. Tolkien", "The Lord of the Rings: The Fellowship of the Ring",
 					"HarperCollins", "English", dateFormat.parse("2017-01-30"),
