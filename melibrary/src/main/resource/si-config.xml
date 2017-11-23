@@ -149,19 +149,7 @@
 	</int-http:outbound-gateway>
 
 	<int:channel id="stdOutChannel" />
-	<int:channel id="chatChannel" />
-	<int:channel id="surveillanceChannel" />
-
-	<int:recipient-list-router id="chatRouter"
-		input-channel="chatChannel">
-		<int:recipient channel="stdOutChannel" />
-		<int:recipient channel="surveillanceChannel" />
-	</int:recipient-list-router>
-
+	
 	<int-stream:stdout-channel-adapter
 		id="stdOutAdapter" channel="stdOutChannel" append-newline="true" />
-
-	<int-file:outbound-channel-adapter
-		id="surveillanceAdapter" channel="surveillanceChannel" directory="surveilance"
-		filename-generator-expression="'chat.log'" mode="APPEND" />
 </beans>

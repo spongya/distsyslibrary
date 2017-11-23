@@ -1,5 +1,7 @@
 package com.uni.iit.distsys.melibrary.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Book {
@@ -119,6 +121,8 @@ public class Book {
 
 	@Override
 	public String toString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("Book [author=");
 		builder.append(author);
@@ -137,7 +141,9 @@ public class Book {
 		builder.append(", isAvailable=");
 		builder.append(isAvailable);
 		builder.append(", checkoutDate=");
-		builder.append(checkoutDate);
+		if (checkoutDate != null) {
+			builder.append(dateFormat.format(checkoutDate));
+		}
 		builder.append("]");
 		return builder.toString();
 	}

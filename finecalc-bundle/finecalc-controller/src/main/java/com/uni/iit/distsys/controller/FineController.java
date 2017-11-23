@@ -32,7 +32,7 @@ public class FineController {
 			@RequestParam("checkdate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkoutDate) {
 		this.managerService.addNewCheckedoutBook(author, title, language, checkoutDate);
 		
-		return "New checked out book added!";
+		return "Checked out book registred to your list";
 	}
 	
 	@RequestMapping(value = "calculate", method = RequestMethod.GET, produces = "text/plain")

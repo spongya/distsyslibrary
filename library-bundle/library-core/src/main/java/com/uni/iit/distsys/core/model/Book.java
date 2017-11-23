@@ -121,29 +121,4 @@ public class Book {
 		return this.author.equals(((Book) obj).author) && this.title.equals(((Book) obj).title)
 				&& this.language.equals(((Book) obj).language);
 	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Book [author=");
-		builder.append(author);
-		builder.append(", title=");
-		builder.append(title);
-		builder.append(", publisher=");
-		builder.append(publisher);
-		builder.append(", registrationDate=");
-		builder.append(registrationDate);
-		builder.append(", language=");
-		builder.append(language);
-		builder.append(", isbnNumber=");
-		builder.append(isbnNumber);
-		builder.append(", isReserved=");
-		builder.append(isReserved);
-		builder.append(", isAvailable=");
-		builder.append(isAvailable);
-		builder.append(", checkoutDate=");
-		builder.append(checkoutDate);
-		builder.append("]");
-		return builder.toString();
-	}
 }

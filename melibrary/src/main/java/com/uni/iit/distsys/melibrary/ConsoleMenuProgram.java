@@ -3,6 +3,9 @@ package com.uni.iit.distsys.melibrary;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.context.ApplicationContext;
@@ -41,7 +44,7 @@ public class ConsoleMenuProgram {
 		System.out.println("Selected menu point: ");
 
 		try {
-			switch (Integer.valueOf(this.reader.readLine())) {
+			switch (Integer.parseInt(this.reader.readLine())) {
 			case 1:
 				addNewBook();
 				break;
@@ -71,8 +74,8 @@ public class ConsoleMenuProgram {
 				showMainMenu();
 				break;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (NumberFormatException | IOException e) {
+			showMainMenu();
 		}
 	}
 
@@ -101,7 +104,7 @@ public class ConsoleMenuProgram {
 
 			this.libraryGateway.addBook(new Book(author, title, publisher, language, isbnNumber));
 		} catch (IOException e) {
-			e.printStackTrace();
+			showMainMenu();
 		}
 	}
 
@@ -118,17 +121,18 @@ public class ConsoleMenuProgram {
 		System.out.println("Choose a book to reserve");
 
 		try {
-			int choice = Integer.valueOf(this.reader.readLine());
+			int choice = Integer.parseInt(this.reader.readLine());
 
 			if (choice == books.length + 1) {
 				showMainMenu();
-			} else if (choice > (books.length + 2) || choice <= 0) {
+			} else if (choice > (books.length + 1) || choice <= 0) {
 				System.out.println("Invalid book to reserve");
+				reserveBook();
 			} else {
 				libraryGateway.reserveBook((Book) books[choice - 1]);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (NumberFormatException | IOException e) {
+			showMainMenu();
 		}
 	}
 
@@ -145,18 +149,20 @@ public class ConsoleMenuProgram {
 		System.out.println("Choose a book to checkout");
 
 		try {
-			int choice = Integer.valueOf(this.reader.readLine());
+			int choice = Integer.parseInt(this.reader.readLine());
 
 			if (choice == books.length + 1) {
 				showMainMenu();
-			} else if (choice > (books.length + 2) || choice <= 0) {
+			} else if (choice > (books.length + 1) || choice <= 0) {
 				System.out.println("Invalid book to checkout");
 			} else {
-				this.libraryGateway.checkoutBook((Book) books[choice - 1]);
-//				this.calcGateway.addNewCheckedoutBook(new Book("Asd", "Asd", "Hun", new Date()));
+				Book bookToCheckout = (Book) books[choice - 1];
+				bookToCheckout.setCheckoutDate(new Date());
+				this.libraryGateway.checkoutBook(bookToCheckout);
+				this.calcGateway.addNewCheckedoutBook(bookToCheckout);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (NumberFormatException | IOException e) {
+			showMainMenu();
 		}
 	}
 
@@ -181,7 +187,7 @@ public class ConsoleMenuProgram {
 		System.out.println("Selected menu point: ");
 
 		try {
-			switch (Integer.valueOf(this.reader.readLine())) {
+			switch (Integer.parseInt(this.reader.readLine())) {
 			case 1:
 				listAllAvailableBook();
 				break;
@@ -202,8 +208,8 @@ public class ConsoleMenuProgram {
 				showSearchForBookMenu();
 				break;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (NumberFormatException | IOException e) {
+			showMainMenu();
 		}
 	}
 
@@ -228,7 +234,7 @@ public class ConsoleMenuProgram {
 				System.out.println(book);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			showMainMenu();
 		}
 	}
 
@@ -241,7 +247,7 @@ public class ConsoleMenuProgram {
 				System.out.println(book);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			showMainMenu();
 		}
 	}
 
@@ -255,29 +261,64 @@ public class ConsoleMenuProgram {
 		System.out.println("Selected menu point: ");
 
 		try {
-			switch (Integer.valueOf(this.reader.readLine())) {
+			switch (Integer.parseInt(this.reader.readLine())) {
 			case 1:
-				listAllAvailableBook();
+				setFinePerDay();
 				break;
 			case 2:
-				listAllNotAvailableBook();
+				setLoanPeriod();
 				break;
 			case 3:
-				listAllBooksByTitle();
+				setCalculationDate();
 				break;
 			case 4:
-				listAllBooksByAuthor();
-				break;
-			case 5:
 				showMainMenu();
 				break;
 			default:
 				System.out.println("Invalid menu point.");
-				showSearchForBookMenu();
+				showFineOptionsMenu();
 				break;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (NumberFormatException | IOException e) {
+			showMainMenu();
+		}
+	}
+
+	private void setCalculationDate() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		System.out.println("New date to calculate fines (type today for reset)");
+		try {
+			String newDate = reader.readLine();
+
+			if (newDate.toLowerCase().equals("today")) {
+				this.fineCalcDate = new Date();
+			} else {
+				this.fineCalcDate = dateFormat.parse(newDate);
+			}
+			System.out.println("Date to calculate fines has been set to " + dateFormat.format(this.fineCalcDate));
+		} catch (ParseException | IOException e) {
+			showMainMenu();
+		}
+	}
+
+	private void setLoanPeriod() {
+		System.out.println("New loan period (days)");
+
+		try {
+			this.calcGateway.setLoanPeriod(Integer.parseInt(reader.readLine()));
+		} catch (NumberFormatException | IOException e) {
+			showMainMenu();
+		}
+	}
+
+	private void setFinePerDay() {
+		System.out.println("New fine per day (HUF)");
+
+		try {
+			this.calcGateway.setFinePerDay(Integer.parseInt(reader.readLine()));
+		} catch (NumberFormatException | IOException e) {
+			showMainMenu();
 		}
 	}
 

@@ -42,7 +42,6 @@ public class LibraryDAODummy implements LibraryDAO {
 	@Override
 	public boolean reserve(Book book) {
 		for (Book b : books) {
-			System.out.println(b);
 			if (b.equals(book)) {
 				if (!b.isReserved() && b.isAvailable()) {
 					b.reserve();
@@ -70,7 +69,7 @@ public class LibraryDAODummy implements LibraryDAO {
 	public Collection<Book> listAllAvailableBook() {
 		Collection<Book> ret = new ArrayList<>();
 		for (Book b : books) {
-			if (b.isAvailable()) {
+			if (b.isAvailable() && !b.isReserved()) {
 				ret.add(b);
 			}
 		}
@@ -81,7 +80,7 @@ public class LibraryDAODummy implements LibraryDAO {
 	public Collection<Book> listAllNotAvailableBook() {
 		Collection<Book> ret = new ArrayList<>();
 		for (Book b : books) {
-			if (!b.isAvailable()) {
+			if (!b.isAvailable() || b.isReserved()) {
 				ret.add(b);
 			}
 		}

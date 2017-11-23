@@ -1,5 +1,7 @@
 package com.uni.iit.distsys.melibrary.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BookFine {
@@ -8,11 +10,11 @@ public class BookFine {
 	private String currency;
 	private String details;
 	private Date checkoutDate;
-	
+
 	public BookFine() {
-		
+
 	}
-	
+
 	public BookFine(String details, Date checkoutDate) {
 		this.amount = 0;
 		this.currency = "";
@@ -54,6 +56,8 @@ public class BookFine {
 
 	@Override
 	public String toString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("BookFine [amount=");
 		builder.append(amount);
@@ -62,8 +66,8 @@ public class BookFine {
 		builder.append(", details=");
 		builder.append(details);
 		builder.append(", checkoutDate=");
-		builder.append(checkoutDate);
+		builder.append(dateFormat.format(checkoutDate));
 		builder.append("]");
 		return builder.toString();
-	}	
+	}
 }
