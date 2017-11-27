@@ -28,7 +28,14 @@ public class LibraryDAODummy implements LibraryDAO {
 					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, true, null));
 			this.books.add(new Book("J. R. R. Tolkien", "The Lord of the Rings: The Fellowship of the Ring",
 					"HarperCollins", "English", dateFormat.parse("2017-01-30"),
-					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, false, dateFormat.parse("2017-09-15")));
+					String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false, false,
+					dateFormat.parse("2017-09-15")));
+			this.books.add(new Book("George R. R. Martin", "A Game of Thrones", "Alexandra", "Hungarian",
+					dateFormat.parse("2016-02-28"), String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false,
+					false, dateFormat.parse("2017-09-01")));
+			this.books.add(new Book("George R. R. Martin", "A Clash of Kings", "Alexandra", "Hungarian",
+					dateFormat.parse("2016-02-28"), String.valueOf(ThreadLocalRandom.current().nextInt(9999999)), false,
+					false, dateFormat.parse("2017-11-01")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -75,7 +82,7 @@ public class LibraryDAODummy implements LibraryDAO {
 		}
 		return ret;
 	}
-	
+
 	@Override
 	public Collection<Book> listAllNotAvailableBook() {
 		Collection<Book> ret = new ArrayList<>();

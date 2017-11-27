@@ -10,7 +10,7 @@
   	<dependency>
   		<groupId>com.uni.iit.distsys</groupId>
   		<artifactId>finecalc-core</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<version>${core.version}</version>
   	</dependency>
   </dependencies>
 </project>
